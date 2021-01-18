@@ -4,11 +4,12 @@ using System.IO;
 using XsltTransformer.AltovaXsltTransformer;
 using XsltTransformer.BuiltInXsltTransformer;
 using XsltTransformer.SaxonXsltTransformer;
+using XsltTransformer.XmlPrimeXsltTransformer;
 
 namespace XsltTransformer
 {
     static class Program
-    {   
+    {
         static readonly string _rootPath = Directory.GetParent(Environment.CurrentDirectory).Parent.FullName;
 
         static void Main(string[] args)
@@ -26,6 +27,11 @@ namespace XsltTransformer
             sw.Stop();
             Console.WriteLine($"Saxon elapsed time in seconds: {sw.ElapsedMilliseconds / 1000.0}s");
             sw.Reset();
+
+            sw.Start();
+            UseXmlPrimeTransformer();
+            Console.WriteLine($"XMLPrime elapsed time in seconds: {sw.ElapsedMilliseconds / 1000.0}s");
+            sw.Stop();
 
             Console.ReadKey();
         }
@@ -50,6 +56,12 @@ namespace XsltTransformer
             var result = saxonTransformer.Transform();
             //Console.WriteLine($"Saxon transform result: {result} / Output: {saxonTransformer.ResultDocument}");
         }
+
+        private static void UseXmlPrimeTransformer()
+        {
+            var xmlPrimeTransformer = new XmlPrimeTransformer(_rootPath);
+            xmlPrimeTransformer.Transform();
+        }
+
     }
 }
-    
